@@ -22,25 +22,24 @@ class CreateNewUserDynamicEmailUsernameVerifyAssert(unittest.TestCase):
     def test_create_new_user_dynamic_email_username_verify_assert(self):
         driver = self.driver
         #environment = "http://10.94.6.100:60000/"
-        #username = driver.execute_script("var environment = \"" + str(environment) + "\";var storedVars = { 'environment': environment }; return " + "'user'+Math.floor(Math.random() * 10000)")
         GlobalId=randint(1000,50000)
         username='Testuser'+str(GlobalId)
         email = username + "@mail.ru"
         driver.get("http://10.94.6.100")
-        loginform = self.is_element_present(By.ID, "UserName")
+        #login actions
         driver.find_element_by_id("UserName").clear()
         driver.find_element_by_id("UserName").send_keys("global")
         driver.find_element_by_id("Password").clear()
         driver.find_element_by_id("Password").send_keys("global")
         driver.find_element_by_xpath("//button[@type='submit']").click()
         time.sleep(5)
+        #close banner
         driver.find_element_by_xpath("//span[@class='header-banner__close-button']").is_displayed()
         driver.find_element_by_xpath("//span[@class='header-banner__close-button']").click()
+        #navigate to invisible menu item
         actions = ActionChains(driver)
         actions.move_to_element(driver.find_element_by_xpath("//div[contains(text(), 'Users')]")).perform()
-        
-
-
+        #Create user actions
         driver.find_element_by_xpath("//div[contains(text(), 'Users')]").is_displayed()
         driver.find_element_by_xpath("//div[contains(text(), 'Users')]").click()
         driver.find_element_by_xpath("//span[contains(text(), 'Create new user')]").is_displayed()
@@ -63,7 +62,6 @@ class CreateNewUserDynamicEmailUsernameVerifyAssert(unittest.TestCase):
         driver.find_element_by_xpath("(//label[contains(text(), 'Select all')])[2]").click()
         actions.move_to_element(driver.find_element_by_xpath("(//label[contains(text(), 'Select all')])[3]")).perform()
         driver.find_element_by_xpath("(//label[contains(text(), 'Select all')])[3]").click()
-       # driver.find_element_by_xpath("(//div[@class='ui-checkbox table-row-group__btns__checkbox ui-checkbox_default'])[1]").click()
         i = 1
         while i<=5 :
             index=str(i)
@@ -71,11 +69,11 @@ class CreateNewUserDynamicEmailUsernameVerifyAssert(unittest.TestCase):
             i = i + 1
 
         driver.find_element_by_xpath("//span[contains(text(), 'Create')]").click()
+        # Close warning message
         driver.find_element_by_xpath("//div[contains(text(), 'This global ID does')]").is_displayed()
         time.sleep(2)
         driver.find_element_by_xpath("//span[contains(text(), 'Yes')]").click()
         time.sleep(3)
-
         # verification
         driver.find_element_by_xpath("//span[contains(text(), 'Authorised by')]").is_displayed()
         driver.find_element_by_xpath("//span[contains(text(), 'MPC Film')]").is_displayed()
